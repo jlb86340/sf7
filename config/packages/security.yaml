@@ -5,25 +5,18 @@ security:
             algorithm: 'auto' # hashage preconise par Symfony
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory:
-            memory:
-                users:
-                    broots:             #users 1 login : broots mdp:'toto'
-                        password: '$2y$13$2dRqpJw7mw3.LddIEhn2/eC.xnK/LWDATEdIr3EDeR8d55eeWRbvG' # mdp de broots
-                        roles: ['ROLE_USER']
-                    parker:     # mdp:'admin'
-                        password: '$2y$13$IjL87Ia4ekOc.XFkhw9h1OdeL4Z3NQCLLTZdQUgqxeT0M9piVTWDe'
-                        roles: ['ROLE_ADMIN', 'ROLE_KILLER']
-                    jarod: #mdp: 'qwerty'
-                        password: '$2y$13$lzJq8nFCC/Py6NtWxCSnQuTpeYdZ.Uoi4maxnYShQ9dZ4vEmasTde'
-                        roles: ['ROLES_SUPER_ADMIN']
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: login
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory #designe les users concernés par le firewall
+            provider: app_user_provider #designe les users concernés par le firewall
             http_basic: ~  #authentification http
 
             # activate different ways to authenticate
