@@ -17,7 +17,7 @@ security:
         main:
             lazy: true
             provider: app_user_provider #designe les users concernés par le firewall
-            http_basic: ~  #authentification http
+            # http_basic: ~  #authentification http
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -25,19 +25,23 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
     role_hierarchy:
-        ROLE_ADMIN: ROLE_USER               # un admin a les droits d'un user avec les siens en plus
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN , ROLE_BANQUE]    # super_admin = sur-ensemble d'admin (et donc user) et de banque
+        ROLE_DIRIGEANT: ROLE_SALAIRIE       # un dirigeant a tous les droits d'un salarie avec d'autres en plus
+        # ROLE_ADMIN: ROLE_USER               # un admin a les droits d'un user avec les siens en plus
+        # ROLE_SUPER_ADMIN: [ROLE_ADMIN , ROLE_BANQUE]    # super_admin = sur-ensemble d'admin (et donc user) et de banque
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         # URL "/" (et uniquement celle-la) : pas besoin d'authentification
-        - { path: ^/$, roles: PUBLIC_ACCESS }
+        - { path: ^/$, roles: PUBLIC_ACCESS }  #page d'accueil publique
+        - { path: ^/security/login$, roles: PUBLIC_ACCESS } # page de login publique (par definition)
+        - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED } # autres pages : necessite d'etre authentifie
+
         # URLs commencant par "/sandbox" : il faut etre au moins ADMIN (donc ADMIN ou SUPER_ADMIN ici)
-        - { path: ^/sandbox, roles: ROLE_ADMIN }
+        # - { path: ^/sandbox, roles: ROLE_ADMIN }
         # URLs commencant par "/produit/list" : il faut etre authentifie quel que soit le role
-        - { path: ^/produit/list, roles: IS_AUTHENTICATED_FULLY }
-        # toutes les URLs commencant par "n'importe quoi" (donc toutes les autres) : ^etre au moins USER ou KILLER
-        - { path: ^/, roles: [ ROLE_USER, ROLE_KILLER ] }
+        # - { path: ^/produit/list, roles: IS_AUTHENTICATED_FULLY }
+        # toutes les URLs commencant par "n'importe quoi" (donc toutes les autres) : etre au moins USER ou KILLER
+        # - { path: ^/, roles: [ ROLE_USER, ROLE_KILLER ] }
 
 when@test:
     security:
