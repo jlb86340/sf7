@@ -17,6 +17,11 @@ security:
         main:
             lazy: true
             provider: app_user_provider #designe les users concernés par le firewall
+            custom_authenticator: App\Security\MyLoginFormAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
             # http_basic: ~  #authentification http
 
             # activate different ways to authenticate

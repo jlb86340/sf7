@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route('/sandbox/securitytest', name: 'sandbox_securitytest')]
-class SucrityTestController extends AbstractController
+class SecurityTestController extends AbstractController
 {
     #[Route('/addusers', name: '_addusers')]
     public function addUsersAction(EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
