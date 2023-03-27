@@ -19,7 +19,7 @@ security:
             provider: app_user_provider #designe les users concernés par le firewall
             custom_authenticator: App\Security\MyLoginFormAuthenticator
             logout:
-                path: app_logout
+                path: security_logout
                 # where to redirect after logout
                 target: accueil_index
             # http_basic: ~  #authentification http
